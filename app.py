@@ -1,4 +1,5 @@
 import os
+import random
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -46,8 +47,8 @@ def get_vector_store(chunks):
 
 def get_conversational_chain():
     prompt_template = """
-    Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
-    provided context just say, "answer is not available in the context", don't provide the wrong answer\n\n
+    Act as Docter and Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
+    provided context just say, "I CAN'T GET IT! Please Rephrase the question ", don't provide the wrong answer\n\n
     Context:\n {context}?\n
     Question: \n{question}\n
 
@@ -87,33 +88,38 @@ def user_input(user_question):
 
 def main():
     st.set_page_config(
-        page_title="Gemini PDF Chatbot",
-        page_icon="🤖"
+        page_title="OCR-PDF Analyzer",
+        page_icon="🩺"
     )
 
     # Sidebar for uploading PDF files
     with st.sidebar:
         st.title("Menu:")
         pdf_docs = st.file_uploader(
-            "Upload your PDF Files and Click on the Submit & Process Button", accept_multiple_files=True)
-        if st.button("Submit & Process"):
-            with st.spinner("Processing..."):
+            "Upload your OCR-PDF Data and Click on the Extraction Button", accept_multiple_files=True)
+        if st.button("EXTRACTION"):
+            with st.spinner("Learning from data ..."):
                 raw_text = get_pdf_text(pdf_docs)
                 text_chunks = get_text_chunks(raw_text)
                 get_vector_store(text_chunks)
                 st.success("Done")
 
     # Main content area for displaying chat messages
-    st.title("Chat with PDF files using Gemini🤖")
-    st.write("Welcome to the chat!")
-    st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
+    st.title("Info retrieval through AI learning Chatbot.📃")
+    # Define the list of possible greetings
+    greetings = ["NAMASTE 🙏", "Hello! How can I assist you today?", "HOLA AMIGO ❤️","Ready to work!"]
+    # Randomly select a greeting from the list
+    selected_greeting = random.choice(greetings)
+    # Display the selected greeting
+    st.write(selected_greeting)
+    st.sidebar.button('Clear Recorded-data History', on_click=clear_chat_history)
 
     # Chat input
     # Placeholder for chat messages
 
     if "messages" not in st.session_state.keys():
         st.session_state.messages = [
-            {"role": "assistant", "content": "upload some pdfs and ask me a question"}]
+            {"role": "assistant", "content": "Upload some records and ask me questions"}]
 
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
