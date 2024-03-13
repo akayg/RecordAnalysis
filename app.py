@@ -10,7 +10,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
-
+from streamlit_option_menu import option_menu
 load_dotenv()
 os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
@@ -95,45 +95,43 @@ def main():
 
     # Sidebar for uploading PDF files
     with st.sidebar:
-        st.title("Menu:")
+        selected = option_menu(
+            menu_title= "Main menu",
+            options=["Home","PDFs","About us"],
+            icons=["house-lock-fill","file-pdf-fill","person-lines-fill"],
+            default_index=0
+        )
+    if selected =="Home":
+        st.title("Info retrieval through AI learning Chatbot.📃")
+        greetings = ["NAMASTE 🙏", "Hello! How can I assist you today?", "HOLA AMIGO ❤️","Ready to work!"]
+        selected_greeting = random.choice(greetings)
+        st.write(selected_greeting)
+        st.sidebar.button('Clear Recorded-data History', on_click=clear_chat_history)
         pdf_docs = st.file_uploader(
-            "Upload your OCR-PDF Data and Click on the Extraction Button", accept_multiple_files=True)
+            "Upload your OCR-PDF Data and Click on the Extraction Button", accept_multiple_files=True,)
+        if "messages" not in st.session_state.keys():
+            st.session_state.messages = [
+             {"role": "assistant", "content": "Upload some records and ask me questions"}]
+        
         if st.button("EXTRACTION"):
-            with st.spinner("Learning from data ..."):
-                raw_text = get_pdf_text(pdf_docs)
-                text_chunks = get_text_chunks(raw_text)
-                get_vector_store(text_chunks)
-                st.success("Done")
-
-    # Main content area for displaying chat messages
-    st.title("Info retrieval through AI learning Chatbot.📃")
-    # Define the list of possible greetings
-    greetings = ["NAMASTE 🙏", "Hello! How can I assist you today?", "HOLA AMIGO ❤️","Ready to work!"]
-    # Randomly select a greeting from the list
-    selected_greeting = random.choice(greetings)
-    # Display the selected greeting
-    st.write(selected_greeting)
-    st.sidebar.button('Clear Recorded-data History', on_click=clear_chat_history)
-
-    # Chat input
-    # Placeholder for chat messages
-
-    if "messages" not in st.session_state.keys():
-        st.session_state.messages = [
-            {"role": "assistant", "content": "Upload some records and ask me questions"}]
-
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
+         with st.spinner("Learning from data ..."):
+            raw_text = get_pdf_text(pdf_docs)
+            text_chunks = get_text_chunks(raw_text)
+            get_vector_store(text_chunks)
+            st.success("Done")
+        
+        for message in st.session_state.messages:
+         with st.chat_message(message["role"]):
             st.write(message["content"])
 
-    if prompt := st.chat_input():
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
+        if prompt := st.chat_input():
+         st.session_state.messages.append({"role": "user", "content": prompt})
+         with st.chat_message("user"):
             st.write(prompt)
 
     # Display chat messages and bot response
-    if st.session_state.messages[-1]["role"] != "assistant":
-        with st.chat_message("assistant"):
+        if st.session_state.messages[-1]["role"] != "assistant":
+         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 response = user_input(prompt)
                 placeholder = st.empty()
@@ -142,7 +140,7 @@ def main():
                     full_response += item
                     placeholder.markdown(full_response)
                 placeholder.markdown(full_response)
-        if response is not None:
+         if response is not None:
             message = {"role": "assistant", "content": full_response}
             st.session_state.messages.append(message)
 
