@@ -47,11 +47,11 @@ def get_vector_store(chunks):
 
 def get_conversational_chain():
     prompt_template = """
-    Act as Docter and Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
-    provided context just say, "I CAN'T GET IT! Please Rephrase the question ", don't provide the wrong answer\n\n
     Context:\n {context}?\n
     Question: \n{question}\n
 
+    Act as Docter and Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
+    provided context just say, "I CAN'T GET IT! Please Rephrase the question ",\n\n
     Answer:
     """
 
@@ -63,6 +63,7 @@ def get_conversational_chain():
                             input_variables=["context", "question"])
     chain = load_qa_chain(llm=model, chain_type="stuff", prompt=prompt)
     return chain
+
 
 
 def clear_chat_history():
