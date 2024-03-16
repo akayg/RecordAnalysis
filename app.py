@@ -1,6 +1,9 @@
 import os
 import random
 from PyPDF2 import PdfReader
+import pandas as pd
+import subprocess
+import pdfs
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import streamlit as st
@@ -15,8 +18,9 @@ load_dotenv()
 os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# read all pdf files and return text
-
+# # read all pdf files and return text
+# def run_python_script(script_name):
+#     subprocess.run(["streamlit", "run", script_name], check=True)
 
 def get_pdf_text(pdf_docs):
     text = ""
@@ -50,9 +54,7 @@ def get_conversational_chain():
     Context:\n {context}?\n
     Question: \n{question}\n
 
-    Act as Docter and Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
-    provided context just say, "I CAN'T GET IT! Please Rephrase the question ",\n\n
-    Answer:
+
     """
 
     model = ChatGoogleGenerativeAI(model="gemini-pro",
@@ -101,14 +103,16 @@ def main():
             icons=["house-lock-fill","file-pdf-fill","person-lines-fill"],
             default_index=0
         )
-    if selected =="Home":
+    if selected=="PDFs":
+       pdfs.display_pdfs_page()
+    elif selected =="Home":
         st.title("Info retrieval through AI learning Chatbot.📃")
         greetings = ["NAMASTE 🙏", "Hello! How can I assist you today?", "HOLA AMIGO ❤️","Ready to work!"]
         selected_greeting = random.choice(greetings)
         st.write(selected_greeting)
         st.sidebar.button('Clear Recorded-data History', on_click=clear_chat_history)
         pdf_docs = st.file_uploader(
-            "Upload your OCR-PDF Data and Click on the Extraction Button", accept_multiple_files=True,)
+            "Upload your OCR-PDF Data and Click on the Extraction Button", accept_multiple_files=True,type=['pdf'])
         if "messages" not in st.session_state.keys():
             st.session_state.messages = [
              {"role": "assistant", "content": "Upload some records and ask me questions"}]
