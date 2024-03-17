@@ -99,12 +99,14 @@ def main():
     with st.sidebar:
         selected = option_menu(
             menu_title= "Main menu",
-            options=["Home","PDFs","About us"],
+            options=["Home","PDFs","About_us"],
             icons=["house-lock-fill","file-pdf-fill","person-lines-fill"],
             default_index=0
         )
     if selected=="PDFs":
-       pdfs.display_pdfs_page()
+       st.title("leading")
+    elif selected=="About_us":
+       st.title("About us page")
     elif selected =="Home":
         st.title("Info retrieval through AI learning Chatbot.📃")
         greetings = ["NAMASTE 🙏", "Hello! How can I assist you today?", "HOLA AMIGO ❤️","Ready to work!"]
