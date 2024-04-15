@@ -14,6 +14,9 @@ from streamlit_option_menu import option_menu
 from bs4 import BeautifulSoup
 from fpdf import FPDF
 import requests
+import dbts
+import hdp
+
 
 load_dotenv()
 os.getenv("GOOGLE_API_KEY")
@@ -124,14 +127,14 @@ def main():
     with st.sidebar:
         selected = option_menu(
             menu_title="Main menu",
-            options=["Home", "Get PDF", "About Us"],
-            icons=["house-lock-fill", "file-pdf-fill", "person-lines-fill", "info-circle-fill"],
+            options=["Home", "Get PDF",  "Diabetes Prediction ML" ,"Heart Disease Prediction","About Us"],
+            icons=["house-lock-fill", "file-pdf-fill", "cup", "person-lines-fill", "info-circle-fill"],
             default_index=0
         )
 
     # Home page
     if selected == "Home":
-        st.title("Info retrieval through AI learning Chatbot.📃")
+        st.title("A.I Medicial Assistant.📃")
         greetings = ["NAMASTE 🙏", "Hello! How can I assist you today?", "HOLA AMIGO ❤️", "Ready to work!"]
         selected_greeting = random.choice(greetings)
         st.write(selected_greeting)
@@ -210,8 +213,25 @@ def main():
 
     # About Us page
     elif selected == "About Us":
-        st.title("About Us")
-        st.write("This is the about us page. We are dedicated to providing AI-powered solutions for information retrieval.")
+        st.title("About AIMS Project")
+        st.header("Project Registration ID is ITE83")
+        # st.write("Our project registration ID is .")
+        st.write("Welcome to AIMS (A.I. Medical Assistant), a project designed to assist students and doctors in studying PDF materials.")
+        st.header("Project Details")
+        st.write("AIMS stands for A.I. Medical Assistant. It is a tool aimed at leveraging artificial intelligence to assist medical professionals and students in studying PDF materials efficiently.")
+        st.header("Team Members")
+        st.write("We are a team of four dedicated individuals working on the AIMS project:")
+        st.write("- Abhishek")
+        st.write("- Itesh")
+        st.write("- Nandini")
+        st.write("- Kritika")
+    elif selected =="Diabetes Prediction ML":
+        dbts.selected()
+    elif selected =="Heart Disease Prediction":
+        hdp.selected()
+        
+
+        
 
 if __name__ == "__main__":
     main()
