@@ -98,13 +98,24 @@ streamlit run app.py
 
 ```
 RecordAnalysis/
-├── app.py                  # Streamlit UI and logic
-├── utils/                  # Utility functions
-│   ├── pdf_reader.py       # PDF parsing and cleaning
-│   └── prompt_templates.py # Custom prompts for AI
-├── .env                    # Your API keys (not pushed to GitHub)
-├── requirements.txt        # All dependencies
-└── README.md               # Project documentation
+├── .vscode/                     # VS Code settings (launch configs, etc.)
+├── colab_files_to_train_models/ # Training scripts/notebooks for model training (Google Colab specific)
+├── dataset/                    # Dataset files used for training/testing
+├── faiss_index/                # Saved FAISS index for vector search
+├── saved_models/               # Pretrained or fine-tuned ML/AI models
+│
+├── Dockerfile                  # Docker configuration for containerizing the app
+├── README.Docker.md            # Docker-specific setup and usage instructions
+├── compose.yaml                # Docker Compose file (multi-container setup, services, etc.)
+│
+├── acne.pdf                    # Sample PDF used for testing/analysis
+├── prompt.txt                  # Prompt templates or example prompts for the AI assistant
+│
+├── dbts.py                     # Handles database-related logic (if applicable)
+├── main.py                     # Main entry point for running the Streamlit app
+├── pdfs.py                     # Logic for handling and parsing PDF documents
+├── requirements.txt            # Python dependencies for the project
+
 ```
 
 ---
@@ -150,4 +161,4 @@ This project is licensed under the **MIT License**.
 ## 📬 Contact
 
 - GitHub: [@akayg](https://github.com/akayg)
-- Email: *(add your email if you'd like others to reach you)*
+- Email: *email@abhishekgore.com
