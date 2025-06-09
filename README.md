@@ -57,8 +57,7 @@ pip install -r requirements.txt
 
 ### 🗝️ Environment Setup
 
-Create a `.env` file in the root directSg+B6Eel4tjQMDcYVcy4Pl6egiru+qGLnqip/AiorxfmQL40PJEy6NIGcY+kOQDbCACEQ/cvBaIvPZHX/ymU9RBpBqGEWCepceBWa0WjS8hQiSaa/e1golT20Z4sy940AmtS1d6DoSdD/Q0WfrdIBzqUZfGdQCYaRHgrJZaURgO9pglXKwzC5BLpwAJ062IZ+Q3AAhXS/OpuKEZc7fv2JGPhXfESAPdE36chgW05RiVynN7mGvIyT9Shr4lHzYjR1pI8v9+4S+BzoXy6AAAAABJRU5ErkJggg=="></a>
-
+Create a `.env` file in the root 
 
 ---
 
